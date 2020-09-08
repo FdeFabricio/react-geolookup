@@ -22,6 +22,8 @@ exports.default = {
     inputClassName: _propTypes2.default.string,
     suggestsHiddenClassName: _propTypes2.default.string,
     suggestItemActiveClassName: _propTypes2.default.string,
+    noResultClassName: _propTypes2.default.string,
+    noResultMessage: _propTypes2.default.string,
     buttonClassName: _propTypes2.default.string,
     buttonText: _propTypes2.default.string,
     location: _propTypes2.default.object,

@@ -32,6 +32,7 @@ class Geolookup extends React.Component {
             userInput: props.initialValue,
             activeSuggest: null,
             suggests: [],
+            hasNoResults: false,
         };
 
         this.onInputChange = this.onInputChange.bind(this);
@@ -184,6 +185,7 @@ class Geolookup extends React.Component {
     }
 
     onSuggestNoResults() {
+        this.setState({hasNoResults: this.state.userInput.length > 0});
         this.props.onSuggestNoResults(this.state.userInput);
     }
 
@@ -309,7 +311,8 @@ class Geolookup extends React.Component {
             skipSuggest = this.props.skipSuggest,
             maxFixtures = 10,
             fixturesSearched = 0,
-            activeSuggest = null;
+            activeSuggest = null,
+            hasNoResults = false;
 
         this.props.fixtures.forEach((suggest) => {
             if (fixturesSearched >= maxFixtures) {
@@ -338,7 +341,7 @@ class Geolookup extends React.Component {
 
         activeSuggest = this.updateActiveSuggest(suggests);
         this.props.onSuggestResults(suggests);
-        this.setState({suggests, activeSuggest}, callback);
+        this.setState({suggests, activeSuggest, hasNoResults}, callback);
     }
 
     /**
@@ -519,6 +522,9 @@ class Geolookup extends React.Component {
                 suggests={this.state.suggests}
                 hiddenClassName={this.props.suggestsHiddenClassName}
                 suggestItemActiveClassName={this.props.suggestItemActiveClassName}
+                noResultClassName={this.props.noResultClassName}
+                noResultMessage={this.props.noResultMessage}
+                hasNoResults={this.state.hasNoResults}
                 activeSuggest={this.state.activeSuggest}
                 onSuggestNoResults={this.onSuggestNoResults}
                 onSuggestMouseDown={this.onSuggestMouseDown}

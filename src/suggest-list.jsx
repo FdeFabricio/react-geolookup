@@ -2,6 +2,7 @@ import React from 'react'; // eslint-disable-line no-unused-vars
 import classnames from 'classnames';
 import SuggestItem from './suggest-item';
 import PropTypes from 'prop-types';
+import NoResults from './no-results';
 
 /**
  * The list with suggestions. Either from an API or provided as fixture
@@ -18,7 +19,7 @@ export default class SuggestList extends React.PureComponent {
    * @return {Boolean} Hidden or not?
    */
     isHidden() {
-        return this.props.isHidden || this.props.suggests.length === 0;
+        return this.props.isHidden || this.props.suggests.length === 0 && !this.props.hasNoResults;
     }
 
     /**
@@ -50,26 +51,30 @@ export default class SuggestList extends React.PureComponent {
 
         return (
             <ul className={classes} style={this.props.style}>
-                {this.props.suggests.map((suggest) => {
-                    const isActive =
-            this.props.activeSuggest &&
-            suggest.placeId === this.props.activeSuggest.placeId;
+                {this.props.hasNoResults ?
+                    <NoResults
+                        className={this.props.noResultClassName}
+                        message={this.props.noResultMessage}
+                    /> : this.props.suggests.map((suggest) => {
+                        const isActive =
+                        this.props.activeSuggest &&
+                        suggest.placeId === this.props.activeSuggest.placeId;
 
-                    return (
-                        <SuggestItem
-                            key={suggest.placeId}
-                            className={suggest.className}
-                            suggest={suggest}
-                            style={this.props.suggestItemStyle}
-                            isActive={isActive}
-                            activeClassname={this.props.suggestItemActiveClassName}
-                            onMouseDown={this.props.onSuggestMouseDown}
-                            onMouseOut={this.props.onSuggestMouseOut}
-                            onSelect={this.props.onSuggestSelect}
-                            suggestItemLabelRenderer={this.props.suggestItemLabelRenderer}
-                        />
-                    );
-                })}
+                        return (
+                            <SuggestItem
+                                key={suggest.placeId}
+                                className={suggest.className}
+                                suggest={suggest}
+                                style={this.props.suggestItemStyle}
+                                isActive={isActive}
+                                activeClassname={this.props.suggestItemActiveClassName}
+                                onMouseDown={this.props.onSuggestMouseDown}
+                                onMouseOut={this.props.onSuggestMouseOut}
+                                onSelect={this.props.onSuggestSelect}
+                                suggestItemLabelRenderer={this.props.suggestItemLabelRenderer}
+                            />
+                        );
+                    })}
             </ul>
         );
     }
@@ -87,6 +92,9 @@ SuggestList.propTypes = {
     activeSuggest: PropTypes.object,
     hiddenClassName: PropTypes.string,
     suggestItemActiveClassName: PropTypes.string,
+    hasNoResults: PropTypes.bool,
+    noResultClassName: PropTypes.string,
+    noResultMessage: PropTypes.string,
     onSuggestNoResults: PropTypes.func,
     suggestItemLabelRenderer: PropTypes.func,
     onSuggestMouseDown: PropTypes.func,

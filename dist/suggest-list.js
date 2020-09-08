@@ -22,6 +22,10 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _noResults = require('./no-results');
+
+var _noResults2 = _interopRequireDefault(_noResults);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -58,7 +62,7 @@ var SuggestList = function (_React$PureComponent) {
     _createClass(SuggestList, [{
         key: 'isHidden',
         value: function isHidden() {
-            return this.props.isHidden || this.props.suggests.length === 0;
+            return this.props.isHidden || this.props.suggests.length === 0 && !this.props.hasNoResults;
         }
 
         /**
@@ -91,7 +95,10 @@ var SuggestList = function (_React$PureComponent) {
             return _react2.default.createElement(
                 'ul',
                 { className: classes, style: this.props.style },
-                this.props.suggests.map(function (suggest) {
+                this.props.hasNoResults ? _react2.default.createElement(_noResults2.default, {
+                    className: this.props.noResultClassName,
+                    message: this.props.noResultMessage
+                }) : this.props.suggests.map(function (suggest) {
                     var isActive = _this2.props.activeSuggest && suggest.placeId === _this2.props.activeSuggest.placeId;
 
                     return _react2.default.createElement(_suggestItem2.default, {
@@ -129,6 +136,9 @@ SuggestList.propTypes = {
     activeSuggest: _propTypes2.default.object,
     hiddenClassName: _propTypes2.default.string,
     suggestItemActiveClassName: _propTypes2.default.string,
+    hasNoResults: _propTypes2.default.bool,
+    noResultClassName: _propTypes2.default.string,
+    noResultMessage: _propTypes2.default.string,
     onSuggestNoResults: _propTypes2.default.func,
     suggestItemLabelRenderer: _propTypes2.default.func,
     onSuggestMouseDown: _propTypes2.default.func,

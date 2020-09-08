@@ -12,6 +12,8 @@ export default {
     inputClassName: PropTypes.string,
     suggestsHiddenClassName: PropTypes.string,
     suggestItemActiveClassName: PropTypes.string,
+    noResultClassName: PropTypes.string,
+    noResultMessage: PropTypes.string,
     buttonClassName: PropTypes.string,
     buttonText: PropTypes.string,
     location: PropTypes.object,

@@ -74,7 +74,8 @@ var Geolookup = function (_React$Component) {
             isLoading: false,
             userInput: props.initialValue,
             activeSuggest: null,
-            suggests: []
+            suggests: [],
+            hasNoResults: false
         };
 
         _this.onInputChange = _this.onInputChange.bind(_this);
@@ -255,6 +256,7 @@ var Geolookup = function (_React$Component) {
     }, {
         key: 'onSuggestNoResults',
         value: function onSuggestNoResults() {
+            this.setState({ hasNoResults: this.state.userInput.length > 0 });
             this.props.onSuggestNoResults(this.state.userInput);
         }
 
@@ -392,7 +394,8 @@ var Geolookup = function (_React$Component) {
                 skipSuggest = this.props.skipSuggest,
                 maxFixtures = 10,
                 fixturesSearched = 0,
-                activeSuggest = null;
+                activeSuggest = null,
+                hasNoResults = false;
 
             this.props.fixtures.forEach(function (suggest) {
                 if (fixturesSearched >= maxFixtures) {
@@ -421,7 +424,7 @@ var Geolookup = function (_React$Component) {
 
             activeSuggest = this.updateActiveSuggest(suggests);
             this.props.onSuggestResults(suggests);
-            this.setState({ suggests: suggests, activeSuggest: activeSuggest }, callback);
+            this.setState({ suggests: suggests, activeSuggest: activeSuggest, hasNoResults: hasNoResults }, callback);
         }
 
         /**
@@ -628,6 +631,9 @@ var Geolookup = function (_React$Component) {
                 suggests: this.state.suggests,
                 hiddenClassName: this.props.suggestsHiddenClassName,
                 suggestItemActiveClassName: this.props.suggestItemActiveClassName,
+                noResultClassName: this.props.noResultClassName,
+                noResultMessage: this.props.noResultMessage,
+                hasNoResults: this.state.hasNoResults,
                 activeSuggest: this.state.activeSuggest,
                 onSuggestNoResults: this.onSuggestNoResults,
                 onSuggestMouseDown: this.onSuggestMouseDown,
